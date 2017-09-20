@@ -221,11 +221,13 @@
      <el-row>
          <el-col>
              <div class="danger grid-content bg-purple">
-                 表格、标签
+                 表格、标签、进度条、tree、分页、标记
              </div>
          </el-col>
      </el-row>
      <el-table
+        v-loading="false"
+        element-loading-text="拼命加载中"
         :data="tableData"
         border
         style="width: 100%">
@@ -247,6 +249,42 @@
     <br>
     <el-tag type="success">标签四</el-tag>
     <el-tag type="warning">标签三</el-tag>
+    <br><br>
+    <el-progress :text-inside="true" :stroke-width="20" :percentage="40"></el-progress>
+    <br><br>
+    <el-progress :text-inside="true" :stroke-width="30" :percentage="70" status="success"></el-progress>
+    <br>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="4"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="400">
+    </el-pagination>
+    <br><br>
+    <el-badge :value="100" :max="99" class="item">
+        <el-button size="small">评论</el-button>
+    </el-badge>
+    <br><br>
+    <el-row>
+        <el-col>
+            <div class="danger grid-content bg-purple">
+                警告、加载、消息提示、弹框、通知
+            </div>
+        </el-col>
+    </el-row>
+    <br>
+    <el-alert
+        title="success"
+        type="warning"
+        description="提示词语"
+        show-icon
+    >
+    </el-alert>
+    <br>
+    <el-button :plain="true" @click="open5">消息</el-button>
   </div>
 </template>
 <script>
@@ -338,6 +376,18 @@ export default {
         handlePictureCardPreview(file) {
             this.dialogImageUrl = file.url;
             this.dialogVisible = true;
+        },
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+        },
+        open5(){
+            this.$message({
+                showClose:true,
+                message:'这是一条消息'
+            })
         }
     }
 }
